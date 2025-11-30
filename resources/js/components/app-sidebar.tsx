@@ -12,11 +12,11 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
+const baseMainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
@@ -38,6 +38,26 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const page = usePage();
+    const roles = (page.props as any).auth?.roles ?? [];
+    const mainNavItems: NavItem[] = [...baseMainNavItems];
+
+    if (roles.includes('superadmin')) {
+        mainNavItems.push({
+            title: 'SuperAdmin',
+            href: '/dashboard/superadmin',
+            icon: Folder,
+        });
+    }
+
+    if (roles.includes('organizer')) {
+        mainNavItems.push({
+            title: 'Organizer',
+            href: '/dashboard/organizer',
+            icon: BookOpen,
+        });
+    }
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

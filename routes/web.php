@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -12,8 +13,35 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
+        $user = Auth::user();
+
+        if ($user && method_exists($user, 'hasRole')) {
+            if ($user->hasRole('superadmin')) {
+                return Inertia::render('dashboards/SuperAdminDashboard');
+            }
+
+            if ($user->hasRole('organizer')) {
+                return Inertia::render('dashboards/OrganizerDashboard');
+            }
+        }
+        // default to end user dashboard
+        return Inertia::render('dashboards/UserDashboard');
     })->name('dashboard');
+
+    // Optional explicit routes protected by auth and role checks
+    Route::get('dashboard/superadmin', function () {
+        return Inertia::render('dashboards/SuperAdminDashboard');
+    })->middleware([\App\Http\Middleware\RequireRole::class . ':superadmin'])->name('dashboard.superadmin');
+
+    Route::get('dashboard/organizer', function () {
+        return Inertia::render('dashboards/OrganizerDashboard');
+    })->middleware([\App\Http\Middleware\RequireRole::class . ':organizer'])->name('dashboard.organizer');
+
+    Route::get('dashboard/user', function () {
+        $user = Auth::user();
+        abort_unless($user, 403);
+        return Inertia::render('dashboards/UserDashboard');
+    })->name('dashboard.user');
 });
 
 require __DIR__.'/settings.php';
