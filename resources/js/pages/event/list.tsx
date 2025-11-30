@@ -1,10 +1,8 @@
 import { EventCard } from '@/components/molecules/event/event-card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import PublicLayout from '@/layouts/public-layout';
+import PublicHeaderLayout from '@/layouts/app/public-header-layout';
 import { type SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
-import { ArrowUpRight, Search } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export default function Welcome({
     canRegister = true,
@@ -14,7 +12,7 @@ export default function Welcome({
     const { auth } = usePage<SharedData>().props;
 
     return (
-        <PublicLayout title="Welcome">
+        <>
             <Head title="Welcome">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link
@@ -22,28 +20,10 @@ export default function Welcome({
                     rel="stylesheet"
                 />
             </Head>
+            <PublicHeaderLayout />
+
             <div className="min-h-screen w-full bg-white text-gray-900">
                 {/* Hero Section */}
-                <section className="flex min-h-[374px] flex-col items-center justify-center bg-primary bg-gradient-to-b bg-[url('/images/hero.png')] from-primary to-primary/80 bg-cover bg-[center_35%] pt-28 pb-20 text-white">
-                    <div className="mx-auto my-auto max-w-7xl px-6 text-center">
-                        <h1 className="mb-4 text-4xl">
-                            Discover and book events effortlessly.
-                        </h1>
-                        <p className="mb-10 text-lg opacity-90">
-                            Concerts, conferences, festivals — all in one place
-                        </p>
-                        <div className="relative mx-auto max-w-2xl">
-                            <Input
-                                placeholder="Search event name, category, or venue..."
-                                className="h-12 rounded-full bg-white pl-6 text-gray-900"
-                            />
-                            <Search
-                                className="absolute top-3.5 right-4 text-gray-500"
-                                size={20}
-                            />
-                        </div>
-                    </div>
-                </section>
 
                 {/* Nearest Events */}
                 <section className="mx-auto max-w-7xl px-6 py-16">
@@ -98,27 +78,6 @@ export default function Welcome({
                     </div>
                 </section>
 
-                {/* Create Event Banner */}
-                <section className="mx-auto max-w-7xl px-6 py-10">
-                    <div className="flex items-center justify-between rounded-2xl bg-primary p-10 text-white shadow-lg">
-                        <div>
-                            <h2 className="mb-3 text-2xl font-semibold">
-                                Start your own event.
-                                <br />
-                                and Manage it Right Now.
-                            </h2>
-                            <Button className="bg-white text-primary hover:bg-gray-100">
-                                Create Event
-                            </Button>
-                        </div>
-                        <img
-                            src="/banner-guy.png"
-                            alt="banner"
-                            className="hidden w-48 md:block"
-                        />
-                    </div>
-                </section>
-
                 {/* Featured Events */}
                 <section className="mx-auto max-w-7xl px-6 py-16">
                     <div className="mb-6 flex items-center justify-between">
@@ -169,7 +128,11 @@ export default function Welcome({
                         ))}
                     </div>
                 </section>
+
+                <footer className="mt-10 border-t py-10 text-center text-sm text-gray-500">
+                    © 2025 TRONticket. All rights reserved.
+                </footer>
             </div>
-        </PublicLayout>
+        </>
     );
 }
