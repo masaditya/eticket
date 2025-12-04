@@ -5,6 +5,7 @@ import PublicLayout from '@/layouts/public-layout';
 import { type SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { ArrowUpRight, Search } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Welcome({
     canRegister = true,
@@ -12,6 +13,7 @@ export default function Welcome({
     canRegister?: boolean;
 }) {
     const { auth } = usePage<SharedData>().props;
+    const [isFocused, setIsFocused] = useState(false);
 
     return (
         <PublicLayout title="Welcome">
@@ -22,6 +24,9 @@ export default function Welcome({
                     rel="stylesheet"
                 />
             </Head>
+            {isFocused && (
+                <div className="fixed inset-0 z-10 bg-black opacity-50 transition-opacity duration-300 ease-in"></div>
+            )}
             <div className="min-h-screen w-full bg-white text-gray-900">
                 {/* Hero Section */}
                 <section className="flex min-h-[374px] flex-col items-center justify-center bg-primary bg-gradient-to-b bg-[url('/images/hero.png')] from-primary to-primary/80 bg-cover bg-[center_35%] pt-28 pb-20 text-white">
@@ -32,10 +37,12 @@ export default function Welcome({
                         <p className="mb-10 text-lg opacity-90">
                             Concerts, conferences, festivals — all in one place
                         </p>
-                        <div className="relative mx-auto max-w-2xl">
+                        <div className="relative z-20 mx-auto max-w-2xl">
                             <Input
                                 placeholder="Search event name, category, or venue..."
                                 className="h-12 rounded-full bg-white pl-6 text-gray-900"
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}
                             />
                             <Search
                                 className="absolute top-3.5 right-4 text-gray-500"

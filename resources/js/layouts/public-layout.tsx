@@ -19,7 +19,7 @@ export default function PublicLayout({
         <>
             <Head title={title ? `${title} — ${appName}` : appName} />
             <PublicHeaderLayout />
-            <main className="min-h-screen w-full bg-white text-gray-900">
+            <main className="relative min-h-screen w-full bg-white text-gray-900">
                 {children}
             </main>
             <PublicFooter />
