@@ -20,7 +20,7 @@ export default function PaymentPage() {
         <PublicLayout title="Payment">
             <div className="relative flex w-full flex-col items-center justify-center">
                 <div className="w-full">
-                    <Tabs className="mx-auto flex w-full">
+                    <Tabs defaultValue="1" className="mx-auto flex w-full">
                         <TabsList className="w-full border-b border-[#D9D9D9] bg-transparent py-5">
                             <TabsTrigger
                                 value="1"
